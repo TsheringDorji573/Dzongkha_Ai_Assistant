@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#202123">
+    <title>Dzongkha AI Assistant</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=3">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="sidebar" id="sidebar" aria-label="Chat sidebar">
+            <div class="sidebar-top">
+                <a class="brand" href="/" aria-label="Dzongkha AI home">
+                    <span class="brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 40 40" fill="none">
+                            <path d="M20 3.5 35 12v16L20 36.5 5 28V12L20 3.5Z" stroke="currentColor" stroke-width="1.8"/>
+                            <path d="M12 15.2h16M12 20h11M12 24.8h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="brand-copy">
+                        <strong>Dzongkha AI</strong>
+                        <small>རིག་པ་ཅན་གྱི་ལས་རོགས།</small>
+                    </span>
+                </a>
+
+                <button class="icon-button sidebar-close" id="sidebar-close" type="button" aria-label="Close sidebar">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>
+                </button>
+            </div>
+
+            <button class="new-chat-button" id="new-chat-btn" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                <span>New chat</span>
+                <span class="new-chat-shortcut">＋</span>
+            </button>
+
+            <div class="sidebar-label">Recent conversations</div>
+            <nav class="chat-history" id="chat-history" aria-label="Recent conversations">
+                <p class="history-empty" id="history-empty">Your recent chats will appear here.</p>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="local-info">
+                    <span class="local-info-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><rect x="4" y="7" width="16" height="12" rx="2"/><path d="M8 7V5h8v2M8 11h8M8 15h5"/></svg>
+                    </span>
+                    <span>
+                        <strong>Local AI models</strong>
+                        <small>Runs on your computer</small>
+                    </span>
+                </div>
+                <button class="clear-history-button" id="clear-history-btn" type="button">Clear chat history</button>
+            </div>
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <main class="main-panel">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="icon-button menu-button" id="menu-toggle" type="button" aria-label="Open sidebar">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <div class="topbar-heading">
+                        <span>Dzongkha AI Assistant</span>
+                        <small>English or Dzongkha · རྫོང་ཁ།</small>
+                    </div>
+                </div>
+                <div class="model-indicator" title="Your assistant uses locally installed models">
+                    <span class="status-dot"></span>
+                    <span>Local AI</span>
+                </div>
+            </header>
+
+            <section class="conversation-area" id="conversation-area">
+                <div class="welcome-screen" id="welcome-screen">
+                    <div class="welcome-logo" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" fill="none">
+                            <path d="M24 4 43 15v18L24 44 5 33V15L24 4Z" stroke="currentColor" stroke-width="1.8"/>
+                            <path d="M15 18h18M15 24h13M15 30h18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <p class="welcome-eyebrow">KUZUZANGPO LA</p>
+                    <h1>How can I help you today?</h1>
+                    <p class="welcome-description">
+                        Ask a question in English or Dzongkha. Your assistant will respond in Dzongkha.
+                    </p>
+
+                    <div class="suggestion-grid">
+                        <button class="suggestion-card" type="button" data-prompt="What is machine learning? Explain it simply.">
+                            <span class="suggestion-icon purple" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.64 5.64l2.12 2.12m8.48 8.48 2.12 2.12m0-12.72-2.12 2.12m-8.48 8.48-2.12 2.12"/><circle cx="12" cy="12" r="5"/></svg>
+                            </span>
+                            <span><strong>Learn something</strong><small>Explain machine learning simply</small></span>
+                            <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </button>
+
+                        <button class="suggestion-card" type="button" data-prompt="Tell me about Bhutan's Gross National Happiness.">
+                            <span class="suggestion-icon green" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M20.8 8.7c0 5.2-8.8 11-8.8 11s-8.8-5.8-8.8-11a4.7 4.7 0 0 1 8.8-2.3 4.7 4.7 0 0 1 8.8 2.3Z"/></svg>
+                            </span>
+                            <span><strong>Explore Bhutan</strong><small>What is Gross National Happiness?</small></span>
+                            <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </button>
+
+                        <button class="suggestion-card" type="button" data-prompt="What is artificial intelligence? Give me a beginner-friendly explanation.">
+                            <span class="suggestion-icon blue" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><path d="M9 9h6v6H9zM9 2v2m6-2v2M9 20v2m6-2v2M2 9h2m-2 6h2m16-6h2m-2 6h2"/></svg>
+                            </span>
+                            <span><strong>Understand technology</strong><small>What is artificial intelligence?</small></span>
+                            <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </button>
+
+                        <button class="suggestion-card" type="button" data-prompt="Help me understand the basics of Python programming.">
+                            <span class="suggestion-icon orange" aria-hidden="true">
+                                <svg viewBox="0 0 24 24"><path d="M8 4h8a2 2 0 0 1 2 2v4h-6a2 2 0 0 0-2 2v4H8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/><path d="M16 20H8a2 2 0 0 1-2-2v-4h6a2 2 0 0 0 2-2V8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2Z"/><path d="M9 7h.01M15 17h.01"/></svg>
+                            </span>
+                            <span><strong>Get coding help</strong><small>Start learning Python basics</small></span>
+                            <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat-box" id="chat-box" aria-live="polite" aria-label="Conversation"></div>
+            </section>
+
+            <footer class="composer-area">
+                <form class="composer-form" id="chat-form">
+                    <div class="composer-box">
+                        <textarea
+                            id="user-input"
+                            name="message"
+                            rows="1"
+                            maxlength="4000"
+                            placeholder="Message Dzongkha AI..."
+                            aria-label="Write your message in English or Dzongkha"
+                            required
+                        ></textarea>
+                        <button class="send-button" id="send-btn" type="submit" aria-label="Send message" disabled>
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+                        </button>
+                    </div>
+                    <div class="composer-hints">
+                        <span>Enter to send · Shift + Enter for a new line</span>
+                        <span>AI responses may contain mistakes.</span>
+                    </div>
+                </form>
+                <div class="footer-note"></div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}?v=3" defer></script>
+</body>
+</html>
